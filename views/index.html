@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+
+    <title>Stay Classy</title>
+
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/style.css">
+
+    <script src="/client.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>
+        Accounts
+      </h1>
+    </header>
+
+    <main>
+      <form>
+        <input name="name" aria-label="account name" type="text" maxlength="100" placeholder="name">
+        <input name="accountType" aria-label="account type" type="text" maxlength="100" placeholder="type">
+        <input name="balance" aria-label="balance" type="text" maxlength="100" placeholder="balance">
+        <button type="submit" id="submit-dream">Add Account</button>
+      </form>
+
+      <section class="accounts">
+        <h2>
+          All Accounts
+        </h2>
+        <ul id="accounts"></ul>
+        <button id="clear-accounts">
+          Clear Accounts
+        </button>
+      </section>
+
+    </main>
+
+    <footer>
+      Made with <a href="https://glitch.com">Glitch</a>!
+    </footer>
+
+    <!-- include the Glitch button to show what the webpage is about and
+          to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js" defer></script>
+  </body>
+</html>
