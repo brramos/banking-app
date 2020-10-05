@@ -25,26 +25,27 @@ router.post('/', (req, res) => {
     balance
   } = req.body
 
-  var accounts = []
-
-  const account = new Account(name, accountType, balance)
-  account.save(accounts, (newAccount, error) => {
-    if (newAccount) {
-      // DISALLOW_WRITE is an ENV variable that gets reset for new projects
-      // so they can write to the database
-      if (!process.env.DISALLOW_WRITE) {
-        db.run(INSERT_ACCOUNT, [newAccount.id, newAccount.name, newAccount.accountType, newAccount.balance], insertError => {
-          if (insertError) {
-            res.send({success: false, insertError});
-          } else {
-            res.send({success: true});
-          }
-        });
+  db.all(SELECT_ALL_ACCOUNTS, (err, accounts) => {
+    const account = new Account(name, accountType, balance)
+    account.save(accounts, (newAccount, error) => {
+      if (newAccount) {
+        // DISALLOW_WRITE is an ENV variable that gets reset for new projects
+        // so they can write to the database
+        if (!process.env.DISALLOW_WRITE) {
+          db.run(INSERT_ACCOUNT, [newAccount.id, newAccount.name, newAccount.accountType, newAccount.balance], insertError => {
+            if (insertError) {
+              res.send({success: false, insertError});
+            } else {
+              res.send({success: true});
+            }
+          });
+        }
+      } else {
+        res.json({success: false, error})
       }
-    } else {
-      res.json({success: false, error})
-    }
-  })
+    })
+  });
+
 })
 
 module.exports = router;
