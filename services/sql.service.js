@@ -10,7 +10,7 @@ const {
   account
 } = require("./sql.constants.js");
 const {
-  CREATE_ACOOUNT_TABLE,
+  CREATE_ACCOUNT_TABLE,
   INSERT_INTO_ACCOUNT,
   SELECT_ALL_ACCOUNTS
 } = account
@@ -25,9 +25,9 @@ const init = () => {
       // insert default dreams
       db.serialize(() => {
         db.run(INSERT_INTO_DREAMS);
-        
+
         db.serialize(() => {
-          db.run(CREATE_ACOOUNT_TABLE);
+          db.run(CREATE_ACCOUNT_TABLE);
 
           db.serialize(() => {
             db.run(INSERT_INTO_ACCOUNT);

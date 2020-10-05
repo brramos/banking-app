@@ -1,32 +1,39 @@
 console.log("hello world :o");
 
-const dreams = [];
+const accounts = [];
 
-const dreamsForm = document.forms[0];
-const dreamInput = dreamsForm.elements["dream"];
-const dreamsList = document.getElementById("dreams");
-const clearButton = document.querySelector('#clear-dreams');
+const accountForm = document.forms[0];
+const nameInput = accountForm.elements["name"];
+const accountTypeInput = accountForm.elements["accountType"];
+const balanceInput = accountForm.elements["balance"];
 
-const appendNewDream = dream => {
+const accountList = document.getElementById("accounts");
+const clearButton = document.querySelector('#clear-accounts');
+
+const appendNewAccount = account => {
   const newListItem = document.createElement("li");
-  newListItem.innerText = dream;
-  dreamsList.appendChild(newListItem);
+  newListItem.innerText = account;
+  accountList.appendChild(newListItem);
 };
 
-fetch("/api/dream/getDreams", {})
+fetch("/api/accounts", {})
   .then(res => res.json())
-  .then(response => {
-    response.forEach(row => {
-      appendNewDream(row.dream);
+  .then(accounts => {
+    accounts.forEach(account => {
+      appendNewAccount(account.name);
     });
   });
 
-dreamsForm.onsubmit = event => {
+accountForm.onsubmit = event => {
   event.preventDefault();
 
-  const data = { dream: dreamInput.value };
+  const data = {
+    name: nameInput.value,
+    accountType: accountTypeInput.value,
+    balance: balanceInput.value
+  };
 
-  fetch("/api/dream/addDream", {
+  fetch("/api/accounts", {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" }
@@ -36,12 +43,15 @@ dreamsForm.onsubmit = event => {
       console.log(JSON.stringify(response));
     });
   // get dream value and add it to the list
-  dreams.push(dreamInput.value);
-  appendNewDream(dreamInput.value);
+  accounts.push(nameInput.value);
+  appendNewAccount(nameInput.value);
 
   // reset form
-  dreamInput.value = "";
-  dreamInput.focus();
+  nameInput.value = '';
+  accountTypeInput.value = '';
+  balanceInput.value = '';
+
+  nameInput.focus();
 };
 
 clearButton.addEventListener('click', event => {
@@ -50,5 +60,5 @@ clearButton.addEventListener('click', event => {
     .then(response => {
       console.log("cleared dreams");
     });
-  dreamsList.innerHTML = "";
+  accountList.innerHTML = "";
 });

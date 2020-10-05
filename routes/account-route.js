@@ -1,19 +1,21 @@
 const express = require("express");
-const request = require("request");
 const router = express.Router();
 
 const Account = require('../models/account')
-
-const checkingAccount = new Account('Billy Ramos', 'checking', 400)
-checkingAccount.id = '1997c20e-c321-4eea-b374-62a022b433db'
-
-const savingAccount = new Account('Billy Ramos', 'savings', 200)
-savingAccount.id = '26ef455d-7b3b-4f1d-9c5d-5afcbfb790b6'
-
-const accounts = [checkingAccount, savingAccount]
+const {
+  account
+} = require("../services/sql.constants");
+const {
+  INSERT_ACCOUNT,
+  SELECT_ALL_ACCOUNTS
+} = account
+const sql = require("../services/sql.service");
+const db = sql.getDb();
 
 router.get("/", (request, response) => {
-  response.json(accounts)
+  db.all(SELECT_ALL_ACCOUNTS, (err, rows) => {
+    response.send(JSON.stringify(rows));
+  });
 });
 
 router.post('/', (req, res) => {
@@ -22,12 +24,23 @@ router.post('/', (req, res) => {
     accountType,
     balance
   } = req.body
-  
+
+  var accounts = []
+
   const account = new Account(name, accountType, balance)
   account.save(accounts, (newAccount, error) => {
     if (newAccount) {
-      accounts.push(newAccount)
-      res.json({success: true})
+      // DISALLOW_WRITE is an ENV variable that gets reset for new projects
+      // so they can write to the database
+      if (!process.env.DISALLOW_WRITE) {
+        db.run(INSERT_ACCOUNT, [newAccount.id, newAccount.name, newAccount.accountType, newAccount.balance], insertError => {
+          if (insertError) {
+            res.send({success: false, insertError});
+          } else {
+            res.send({success: true});
+          }
+        });
+      }
     } else {
       res.json({success: false, error})
     }

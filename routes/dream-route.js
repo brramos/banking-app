@@ -1,9 +1,7 @@
 const express = require("express");
-const request = require("request");
 const router = express.Router();
 
 const {
-  INSERT_INTO_DREAMS,
   SELECT_ALL_DREAMS
 } = require("../services/sql.constants");
 const sql = require("../services/sql.service");

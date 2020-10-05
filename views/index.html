@@ -1,5 +1,3 @@
-<!-- This is a static file -->
-<!-- served from your routes in server.js -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,36 +9,35 @@
     <title>Stay Classy</title>
 
     <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
-    <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
-    
-    <!-- import the webpage's client-side javascript file -->
+
     <script src="/client.js" defer></script>
   </head>
   <body>
     <header>
       <h1>
-        Schedule
+        Accounts
       </h1>
     </header>
 
     <main>
-      <p class="bold">Hola,</p>
-      
-      <p>Tell me your hopes and dreams:</p>
-      
       <form>
-        <input name="dream" aria-label="a new dream" type="text" maxlength="100" placeholder="Dreams!">
-        <button type="submit" id="submit-dream">Submit Dream</button>
+        <input name="name" aria-label="account name" type="text" maxlength="100" placeholder="name">
+        <input name="accountType" aria-label="account type" type="text" maxlength="100" placeholder="type">
+        <input name="balance" aria-label="balance" type="text" maxlength="100" placeholder="balance">
+        <button type="submit" id="submit-dream">Add Account</button>
       </form>
-      
-      <section class="dreams">
-        <ul id="dreams"></ul>
-        <button id="clear-dreams">
-          Clear Dreams
+
+      <section class="accounts">
+        <h2>
+          All Accounts
+        </h2>
+        <ul id="accounts"></ul>
+        <button id="clear-accounts">
+          Clear Accounts
         </button>
       </section>
-      
+
     </main>
 
     <footer>
